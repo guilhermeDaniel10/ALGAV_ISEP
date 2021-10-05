@@ -231,5 +231,13 @@ contSemPaises(X):-continente(X), \+pais(_,X,_).
 
 semVizinhos(X):-pais(X,_,_),\+vizinho(X,_).
 
-chegoLaFacil(X,Y):-vizinho(X,Y);(vizinho(X,Z),vizinho(Y,Z)).
+chegoLaFacil(X,Y):-vizinho(X,Y).
+chegoLaFacil:-vizinho(X,Z),vizinho(Z,Y),X\==Y.
+
+potencia(X,1,R):-R is X,!.
+potencia(X,Y,R):-Y>0,Y1 is Y-1,potencia(X,Y1,R1),R is X * R1.
+
+potenciaNegativa(X,1,R):-R is 1/X,!.
+potenciaNegativa(X,Y,R):-Y<0,Y1 is Y + 1,potenciaNegativa(X,Y1,R1),R is R1/X.
+
 
