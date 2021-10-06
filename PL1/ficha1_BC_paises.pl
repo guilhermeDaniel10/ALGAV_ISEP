@@ -236,11 +236,14 @@ chegoLaFacil:-vizinho(X,Z),vizinho(Z,Y),X\==Y.
 
 potencia(X,1,R):-R is X,!.
 potencia(X,Y,R):-Y>0,Y1 is Y-1,potencia(X,Y1,R1),R is X * R1.
+potencia(X,Y,R):-Y<0,Y1 is -Y,X1 is 1/X,potencia(X1,Y1,R).
 
+fatorial(0,1):-!.
+fatorial(X,R):-X1 is X - 1,fatorial(X1,R1),R is X*R1.
 
-potenciaNegativa(X,Y,R):-Y<0,Y1 is -Y,X1 is 1/X,potencia(X1,Y1,R).
+somatorio(J,K,R):-J==K,R is K,!.
+somatorio(J,K,R):-J1 is J + 1,somatorio(J1,K,R1),R is R1 + J.
 
-
-fatorial(X,Y):-
-
+divisao(X,Y,R):-X<Y,!,R is 0.
+divisao(X,Y,R):-X1 is X - Y, divisao(X1,Y,R1),R is 1 + R1. 
 
