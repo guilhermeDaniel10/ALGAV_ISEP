@@ -241,3 +241,6 @@ potencia(X,Y,R):-Y>0,Y1 is Y-1,potencia(X,Y1,R1),R is X * R1.
 potenciaNegativa(X,Y,R):-Y<0,Y1 is -Y,X1 is 1/X,potencia(X1,Y1,R).
 
 
+fatorial(X,Y):-
+
+
