@@ -36,3 +36,11 @@ umLoopRepetidos(Num,[H|T],R):- umLoopRepetidos(Num,T,R1), ((Num == H, R is R1 + 
 repetidos([],0).
 repetidos([H|T],R):- repetidos(T,R1), ((umLoopRepetidos(H,[H|T],R1), R is R1)).
 
+substituir(Num,[RH|RT]):-RH is Num, RT is RT.
+
+% tmpRepetidos([H|T],[H1|T1]):- pertence(H,T).
+
+substituir([], [], []).
+substituir(Num, [X | L1], [_ | L2], [Z | L3]) :-(X = Num -> Z = 8; Z = X), substituir(L1, L2, L3).
+
+% tmpRepetidos[[R|H]|]
