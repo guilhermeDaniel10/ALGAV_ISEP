@@ -21,26 +21,75 @@ menordois(X,Y,R):-X>Y,R is Y;R is X.
 menor([X],X). % Percorre a lista inteira ate chegar ao final
 menor([H,H2|T],Min):-menor([H2|T],Min1),menordois(H,Min1,Min). % compara sucessivamente o header em que se encontra com o valor minimo atual
 
+
+menorResolucao([X],X):-!.
+menorResolucao([X|L],M):-menor(L,M1), ((X<M1,!,M is X); M is M1).
+
 % Quantidade de pares e impares numa lista de inteiros
 
 quantidadeParImp([],0,0).
 quantidadeParImp([H|T],P,I):- quantidadeParImp(T, P1, I1), NumAtual is mod(H,2),
     ((NumAtual == 0 -> P is P1 + 1, I is I1);(P is P1, I is I1 + 1)).
 
+% contaPIResolucao([],0,0). Depois de chegar aqui, significa que a lista é vazia e não há mais tentativas
+% contaPIResolucao([X|L],P,I):-contaPIResolucao(L,P1,I1),R is X mod 2,((R == 0, !, P is P1+1, I is I1);(I is I1 + 1, P is P1)).
+
 % Verificar elementos repetidos numa lista
 
 % Descobrir o numero de repetidos com um determinado numero
 umLoopRepetidos(_,[],0). 
-umLoopRepetidos(Num,[H|T],R):- umLoopRepetidos(Num,T,R1), ((Num == H, R is R1 + 1);R is R1).
+umLoopRepetidos(Num,[H|T],R):- umLoopRepetidos(Num,T,R1), ((Num == H, R is 1, write("Tem repetido"));R is R1).
 
-repetidos([],0).
-repetidos([H|T],R):- repetidos(T,R1), ((umLoopRepetidos(H,[H|T],R1), R is R1)).
 
-substituir(Num,[RH|RT]):-RH is Num, RT is RT.
+temRepetidos([]):-false.
+temRepetidos([H|T]):-umLoopRepetidos(H,T,R), ((R == 1 -> true,!);temRepetidos(T)).
 
-% tmpRepetidos([H|T],[H1|T1]):- pertence(H,T).
+temRepetidosResol([X|L]):-member(X,L),!.
+temRepetidosResol([_|L]):-repetidos(L).
 
-substituir([], [], []).
-substituir(Num, [X | L1], [_ | L2], [Z | L3]) :-(X = Num -> Z = 8; Z = X), substituir(L1, L2, L3).
+% Inverter uma lista
 
-% tmpRepetidos[[R|H]|]
+inverte(L,LI):-inverte1(L,[ ],LI).
+
+inverte1([ ],L,L).
+inverte1([X|L],L2,L3):-inverte1(L,[X|L2],L3).
+
+% Menor elemento de uma lista à frente
+
+sendMenor(L,LP):-menorResolucao(L,Men),write('Menor= '),write(Men),auxMenor(L,[],Men,LP).
+
+menorFrenteLista([],[]):-!.
+menorFrenteLista(L,[M|L1]):-menor(L,M),apaga(M,L,L1).
+
+apaga(_,[],[]).
+apaga(X,[X|L],L):-!.
+apaga(X,[Y|L],[Y|L1]):-apaga(X,L,L1).
+
+% Concatenar listas- Resolucao Gui
+
+concatenar([],L,L).
+concatenar([Ha|Ta],B,[Ha|D]):-concatenar(Ta,B,D).
+ % No caso de concatenar, a header da lista 1 será limpa constantemente até que não tenha qualquer valor (D continua vazio)
+ % quando fica vazia, a lista 3 assume todos os valores da lista 2. A partir daí, todos os valores que estavam 
+ % guardados algures (Ha), serão adicionador ao resto da lita 3 (inicio da linha 73)
+
+
+
+apagaOco(_,[ ],[ ]).
+apagaOco(X,[X|L],M):-!,apagaOco(X,L,M).
+apagaOco(X,[Y|L],[Y|M]):-apagaOco(X,L,M). % é aqui que é preenchida a lista mais à direita. ATENTO AO Y!
+
+% Concatena
+concatena([],L,L).
+concatena([X|L1],L2,[X|L]):-concatena(L1,L2,L).
+
+% Flatten
+flatten2([],[]).
+flatten2([[H|T]|L],LF):-!,append([H|T],L,L1),flatten2(L1,LF).
+flatten2([X|L],[X|LF]):-flatten2(L,LF).
+
+% Inverter
+inverter(A,B):-inverter1(A,[],B,_), write('Final').
+
+inverter1([],L,L,_).
+inverter1([Ha|Ta], B, C,_):- inverter1(Ta, [Ha|B], C, Ha), write(B).
