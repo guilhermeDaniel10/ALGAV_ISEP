@@ -88,6 +88,20 @@ flatten2([],[]).
 flatten2([[H|T]|L],LF):-!,append([H|T],L,L1),flatten2(L1,LF).
 flatten2([X|L],[X|LF]):-flatten2(L,LF).
 
+% Substituir todas as ocorrencias de um elemento por outro elemento
+
+substituir(_,_,[],[]).
+substituir(X,Y,[X|T],L):-substituir(X,Y,[Y|T],L).
+substituir(X,Y,[Hx|Tx],[Hx|Ty]):-substituir(X,Y,Tx,Ty).
+
+% Inserir um elemento numa dada posição na lista
+
+inserir(_,0,[],[]).
+inserir(Num,Pos1,Pos1,L1,L2):-inserir(Num,Pos1,Ind,[Num|L1],L2),Ind is Pos1 - 1.
+inserir(Num,Pos,Ind,[Hx|Tx],[Hx|Ty]):-inserir(Num,Pos1,Ind,Tx,Ty),Pos is Pos1 - 1.
+
+
+
 % Inverter
 inverter(A,B):-inverter1(A,[],B,_), write('Final').
 
