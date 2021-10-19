@@ -96,9 +96,9 @@ substituir(X,Y,[Hx|Tx],[Hx|Ty]):-substituir(X,Y,Tx,Ty).
 
 % Inserir um elemento numa dada posição na lista
 
-inserir(_,0,[],[]).
-inserir(Num,Pos1,Pos1,L1,L2):-inserir(Num,Pos1,Ind,[Num|L1],L2),Ind is Pos1 - 1.
-inserir(Num,Pos,Ind,[Hx|Tx],[Hx|Ty]):-inserir(Num,Pos1,Ind,Tx,Ty),Pos is Pos1 - 1.
+
+inserir(Num,0,L,[Num|L]).
+inserir(Num,Pos,[Hx|Tx],[Hx|Ty]):- Pos1 is Pos - 1, inserir(Num, Pos1, Tx, Ty).
 
 
 
