@@ -75,4 +75,18 @@ inverter1([Hx|Tx],Lb,Lc):-inverter1(Tx,[Hx|Lb],Lc).
 
 % Uniao de listas
 
-uniao(La,Lb)
+uniao([],L,L).
+uniao([Hx|Tx],L2,L3):-member(Hx,L2),!,uniao(Tx,L2,L3).
+uniao([Hx|Tx],L2,[Hx|Ty]):-uniao(Tx,L2,Ty).
+
+% Intersecao de listas
+
+intersecao([],_,[]).
+intersecao([Hx|Tx],L2,L3):- \+ member(Hx,L2), !, intersecao(Tx, L2, L3).
+intersecao([Hx|Tx],L2,[Hx|Ty]):-intersecao(Tx,L2,Ty).
+
+% Diferenca de conjuntos
+
+diferenca([],_,[]).
+diferenca([Hx|Tx],L2,L3):- member(Hx,L2), !, diferenca(Tx, L2, L3).
+diferenca([Hx|Tx],L2,[Hx|Ty]):-diferenca(Tx, L2, Ty).
